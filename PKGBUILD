@@ -99,7 +99,7 @@ package_cairo-git() {
     install \
     -C build \
     --destdir "${pkgdir}"
-  [[ *"gtk_doc=true"* == " ${_meson_options[*]} "]] && \
+  [[ *"gtk_doc=true"* == " ${_meson_options[*]} " ]] && \
     mkdir \
       -p \
       doc/usr/share && \
