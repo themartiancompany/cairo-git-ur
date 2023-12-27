@@ -66,8 +66,6 @@ pkgver() {
 }
 
 build() {
-  local \
-    _meson_options=()
   _meson_options=(
     -D dwrite=disabled
     -D gtk_doc=false
@@ -89,17 +87,14 @@ package_cairo-git() {
     libcairo-gobject.so
     libcairo-script-interpreter.so
     libcairo.so
-  )
-  provides+=(
     "${_pkgname}")
   conflicts=(
     "${_pkgname}")
-
   meson \
     install \
     -C build \
     --destdir "${pkgdir}"
-  [[ *"gtk_doc=true"* == " ${_meson_options[*]} " ]] && \
+  [[ " ${_meson_options[*]} " =~ ' gtk_doc=true ' ]] && \
     mkdir \
       -p \
       doc/usr/share && \
@@ -111,11 +106,12 @@ package_cairo-docs-git() {
   pkgdesc+=" (documentation)"
   depends=()
   provides=(
-    "${pkgname%-git}")
+    "${_pkgname}")
   conflicts=(
-    "${pkgname%-git}")
-  _build=false
-  [[ "${_build}" != "false" ]] && \
+    "${_pkgname}")
+  local \
+    _build='false'
+  [[ "${_build}" != 'false' ]] && \
     mv \
       doc/* \
       "${pkgdir}"
