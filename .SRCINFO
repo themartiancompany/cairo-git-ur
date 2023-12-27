@@ -30,14 +30,16 @@ pkgbase = cairo-git
 	sha256sums = SKIP
 
 pkgname = cairo-git
-	provides = libcairo-gobject.so
-	provides = libcairo-script-interpreter.so
-	provides = libcairo.so
-	provides = cairo
+	provides = libcairo-gobject.so=1.18.0.r10.gf9de19ad7
+	provides = libcairo-script-interpreter.so=1.18.0.r10.gf9de19ad7
+	provides = libcairo.so=1.18.0.r10.gf9de19ad7
+	provides = libcairo=1.18.0.r10.gf9de19ad7
+	provides = cairo=1.18.0.r10.gf9de19ad7
 	conflicts = cairo
+	conflicts = libcairo
 
 pkgname = cairo-docs-git
 	pkgdesc = 2D graphics library with support for multiple output devices (documentation)
 	depends = 
-	provides = cairo
+	provides = cairo=1.18.0.r10.gf9de19ad7
 	conflicts = cairo

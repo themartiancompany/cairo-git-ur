@@ -85,12 +85,15 @@ build() {
 
 package_cairo-git() {
   provides=(
-    libcairo-gobject.so
-    libcairo-script-interpreter.so
-    libcairo.so
-    "${_pkgname}")
+    "lib${_pkgname}-gobject.so=${pkgver}"
+    "lib${_pkgname}-script-interpreter.so=${pkgver}"
+    "lib${_pkgname}.so=${pkgver}"
+    "lib${_pkgname}=${pkgver}"
+    "${_pkgname}=${pkgver}")
   conflicts=(
-    "${_pkgname}")
+    "${_pkgname}"
+    "lib${_pkgname}"
+  )
   meson \
     install \
     -C build \
@@ -109,7 +112,7 @@ package_cairo-docs-git() {
   pkgdesc+=" (documentation)"
   depends=()
   provides=(
-    "${_pkgname}")
+    "${_pkgname}=${pkgver}")
   conflicts=(
     "${_pkgname}")
   if [[ " ${_meson_options[*]} " =~ \
