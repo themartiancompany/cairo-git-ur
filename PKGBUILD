@@ -55,6 +55,14 @@ source=(
 sha256sums=(
   'SKIP')
 
+_meson_options=(
+  -D dwrite=disabled
+  -D gtk_doc=false
+  -D spectre=disabled
+  -D symbol-lookup=disabled
+  -D tests=disabled
+)
+
 pkgver() {
   cd \
     "${_pkgname}"
@@ -66,13 +74,6 @@ pkgver() {
 }
 
 build() {
-  _meson_options=(
-    -D dwrite=disabled
-    -D gtk_doc=false
-    -D spectre=disabled
-    -D symbol-lookup=disabled
-    -D tests=disabled
-  )
   arch-meson \
     "${_pkgname}" \
     build \
@@ -94,12 +95,14 @@ package_cairo-git() {
     install \
     -C build \
     --destdir "${pkgdir}"
-  [[ " ${_meson_options[*]} " =~ ' gtk_doc=true ' ]] && \
+  if [[ " ${_meson_options[*]} " =~ \
+        ' gtk_doc=true ' ]] then
     mkdir \
       -p \
-      doc/usr/share && \
+      doc/usr/share
     mv \
       {"$pkgdir",doc}"/usr/share/gtk-doc"
+  fi
 }
 
 package_cairo-docs-git() {
@@ -109,12 +112,12 @@ package_cairo-docs-git() {
     "${_pkgname}")
   conflicts=(
     "${_pkgname}")
-  local \
-    _build='false'
-  [[ "${_build}" != 'false' ]] && \
+  if [[ " ${_meson_options[*]} " =~ \
+        ' gtk_doc=true ' ]] then
     mv \
       doc/* \
       "${pkgdir}"
+  fi
 }
 
 # vim:set sw=2 sts=-1 et:
