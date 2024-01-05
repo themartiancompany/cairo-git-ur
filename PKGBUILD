@@ -20,6 +20,7 @@ url="https://${_pkgname}graphics.org/"
 arch=(
   x86_64
   arm
+  armv6l
   armv7h
   aarch64
   i686)
@@ -50,8 +51,11 @@ makedepends=(
 _repo="https://gitlab.freedesktop.org"
 _ns="${_pkgname}"
 _url="${_repo}/${_ns}/${_pkgname}"
+_local="file://${HOME}/${_pkgname}"
 source=(
-  "git+${_url}.git")
+  # "git+${_url}.git"
+  "git+${_local}"
+)
 sha256sums=(
   'SKIP')
 
@@ -61,6 +65,7 @@ _meson_options=(
   -D spectre=disabled
   -D symbol-lookup=disabled
   -D tests=disabled
+  -D xcb=enabled
 )
 
 pkgver() {
