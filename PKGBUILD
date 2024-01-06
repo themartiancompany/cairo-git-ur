@@ -2,11 +2,11 @@
 #
 # Maintainer:  a821
 # Contributor: Pellegrino Prevete (tallero) <pellegrinoprevete@gmail.com>
+# Contributor: Truocolo <truocolo@aol.com>
 # Contributor: Vincent Grande <shoober420@gmail.com>
 # Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 # Contributor: Jan de Groot <jgc@archlinux.org>
 # Contributor: Brice Carpentier <brice@daknet.org>
-# Contributor: Pellegrino Prevete (tallero) <pellegrinoprevete@gmail.com>
 
 _pkgname="cairo"
 pkgbase="${_pkgname}-git"
@@ -65,9 +65,7 @@ _flags() {
   local \
     _bin \
     _include \
-    _glibc_include \
     _lib \
-    _glibc_lib \
     _usr
   _bin="$( \
     cc \
@@ -87,20 +85,12 @@ _flags() {
       dirname \
         "${_bin}")"
     _include="${_usr}/include"
-    # _glib_include="${_usr}/glib/include"
     _lib="${_usr}/lib"
-    # _glibc_lib="${_usr}/glibc/lib"
-    # _cflags+=" -I${_glibc_include}"
     _cflags+=" -I${_include}"
-    # _ldflags+=" -L${_glibc_lib}"
-    # _ldflags+=" -landroid-shmem -landroid-execinfo"
     _ldflags+=" -L${_lib}"
-    # _cc="grun ${_usr}/glibc/bin/gcc"
-    # _cxx="grun ${_usr}/glibc/bin/g++"
   fi
   _cflags+=(
     "${CFLAGS}"
-    # "-ffat-lto-objects"
     "-g3")
   _ldflags+="${LDFLAGS}"
 }
@@ -126,8 +116,6 @@ pkgver() {
 
 build() {
   _flags
-  # CC="${_cc}" \
-  # CXX="${_cxx}" \
   CFLAGS="${_cflags[*]}" \
   CXXFLAGS="${_cflags[*]}" \
   LDFLAGS="${_ldflags[*]}" \
@@ -135,7 +123,6 @@ build() {
       "${_pkgname}" \
       build \
       "${_meson_options[@]}"
-  # CC="${_cc}" \
   CFLAGS="${_cflags[*]}" \
   CXXFLAGS="${_cflags[*]}" \
   LDFLAGS="${_ldflags[*]}" \
