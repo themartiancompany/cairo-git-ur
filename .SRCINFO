@@ -5,6 +5,7 @@ pkgbase = cairo-git
 	url = https://cairographics.org/
 	arch = x86_64
 	arch = arm
+	arch = armv6l
 	arch = armv7h
 	arch = aarch64
 	arch = i686
@@ -26,7 +27,7 @@ pkgbase = cairo-git
 	depends = lzo
 	depends = pixman
 	depends = zlib
-	source = git+https://gitlab.freedesktop.org/cairo/cairo.git
+	source = git+file:///data/data/com.termux/files/home/cairo
 	sha256sums = SKIP
 
 pkgname = cairo-git

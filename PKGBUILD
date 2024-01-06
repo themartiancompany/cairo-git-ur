@@ -59,13 +59,59 @@ source=(
 sha256sums=(
   'SKIP')
 
+_flags() {
+  _cflags=()
+  _ldflags=()
+  local \
+    _bin \
+    _include \
+    _glibc_include \
+    _lib \
+    _glibc_lib \
+    _usr
+  _bin="$( \
+    cc \
+     -v 2>&1 |
+     grep \
+       "InstalledDir" | \
+       awk '{print $2}')"
+  if [[ "${_bin}" == "" ]]; then
+    _bin="$( \
+      dirname \
+      "$(command \
+          -v \
+          gcc)")"
+  fi
+  if [[ "${_bin}" != "" ]]; then
+    _usr="$( \
+      dirname \
+        "${_bin}")"
+    _include="${_usr}/include"
+    # _glib_include="${_usr}/glib/include"
+    _lib="${_usr}/lib"
+    # _glibc_lib="${_usr}/glibc/lib"
+    # _cflags+=" -I${_glibc_include}"
+    _cflags+=" -I${_include}"
+    # _ldflags+=" -L${_glibc_lib}"
+    # _ldflags+=" -landroid-shmem -landroid-execinfo"
+    _ldflags+=" -L${_lib}"
+    # _cc="grun ${_usr}/glibc/bin/gcc"
+    # _cxx="grun ${_usr}/glibc/bin/g++"
+  fi
+  _cflags+=(
+    "${CFLAGS}"
+    # "-ffat-lto-objects"
+    "-g3")
+  _ldflags+="${LDFLAGS}"
+}
+
 _meson_options=(
   -D dwrite=disabled
   -D gtk_doc=false
   -D spectre=disabled
   -D symbol-lookup=disabled
   -D tests=disabled
-  -D xcb=enabled
+  -D xlib=enabled
 )
 
 pkgver() {
@@ -79,13 +125,23 @@ pkgver() {
 }
 
 build() {
-  arch-meson \
-    "${_pkgname}" \
-    build \
-    "${_meson_options[@]}"
-  meson \
-    compile \
-    -C build
+  _flags
+  # CC="${_cc}" \
+  # CXX="${_cxx}" \
+  CFLAGS="${_cflags[*]}" \
+  CXXFLAGS="${_cflags[*]}" \
+  LDFLAGS="${_ldflags[*]}" \
+    arch-meson \
+      "${_pkgname}" \
+      build \
+      "${_meson_options[@]}"
+  # CC="${_cc}" \
+  CFLAGS="${_cflags[*]}" \
+  CXXFLAGS="${_cflags[*]}" \
+  LDFLAGS="${_ldflags[*]}" \
+    meson \
+      compile \
+      -C build
 }
 
 package_cairo-git() {
