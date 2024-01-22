@@ -8,6 +8,7 @@
 # Contributor: Jan de Groot <jgc@archlinux.org>
 # Contributor: Brice Carpentier <brice@daknet.org>
 
+_pkg="glib"
 _pkgname="cairo"
 pkgbase="${_pkgname}-git"
 pkgname=(
@@ -69,17 +70,17 @@ _flags() {
     _lib \
     _usr
   _bin="$( \
-    cc \
-     -v 2>&1 |
-     grep \
-       "InstalledDir" | \
-       awk '{print $2}')"
+    dirname \
+      "$( \
+        command \
+          -v \
+          "cc")")"
   if [[ "${_bin}" == "" ]]; then
     _bin="$( \
       dirname \
       "$(command \
           -v \
-          gcc)")"
+          "gcc")")"
   fi
   if [[ "${_bin}" != "" ]]; then
     _usr="$( \
@@ -88,6 +89,8 @@ _flags() {
     _include="${_usr}/include"
     _lib="${_usr}/lib"
     _cflags+=" -I${_include}"
+    _cflags+=" -I${_include}/${_pkg}-2.0"
+    _cflags+=" -I${_lib}/${_pkg}-2.0/include"
     _ldflags+=" -L${_lib}"
   fi
   _cflags+=(
@@ -102,6 +105,7 @@ _meson_options=(
   -D spectre=disabled
   -D symbol-lookup=disabled
   -D tests=disabled
+  -D xcb=enabled
   -D xlib=enabled
 )
 

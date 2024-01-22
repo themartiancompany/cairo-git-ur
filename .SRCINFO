@@ -15,6 +15,7 @@ pkgbase = cairo-git
 	makedepends = gtk-doc
 	makedepends = meson
 	makedepends = xsltproc
+	makedepends = xorgproto
 	makedepends = valgrind
 	depends = fontconfig
 	depends = freetype2
