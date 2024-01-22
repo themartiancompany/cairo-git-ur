@@ -46,6 +46,7 @@ makedepends=(
   gtk-doc
   meson
   xsltproc
+  xorgproto
   valgrind
 )
 _repo="https://gitlab.freedesktop.org"
